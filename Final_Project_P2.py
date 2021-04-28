@@ -2,28 +2,30 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import scipy.stats as stats
 
-airline_list = ['UAL','AAL','DAL','SAVE']
-For airline in airline_list:
+airlinecode_df = pd.read_csv('airline_codes.csv')
+stockcode = 'UAL'
+stockfile = stockcode + '.csv'
+iatacode = airlinecode_df[airlinecode_df['Stock Code'] == stockcode]['Airline Code']
+print(iatacode)
+iatacode_1=iatacode.iloc[0]
+opsfile = iatacode_1 + '_ops.csv'
+print(opsfile)
 
 # Import stock price from csv and set date as index
-airlinestock_df = pd.read_csv("UAL.csv",parse_dates=['Date'],index_col='Date')
-print(airlinestock_df.info())
+airlinestock_df = pd.read_csv(stockfile, parse_dates=['Date'],index_col='Date')
 # Subset only the Close Price column
 airlineclose_df = airlinestock_df[['Close']]
-print(airlineclose_df.head())
 # Regroup on time-series data, downsampling the price to monthly basis
 airlineclosemon_df = airlineclose_df.resample('M').mean()
 # Calculate the monthly price percent change
 airlineclosemon_df['Diff'] = airlineclosemon_df.Close.pct_change().mul(100)
 airlineclosemon_df['year'] = pd.DatetimeIndex(airlineclosemon_df.index).year
 airlineclosemon_df['month'] = pd.DatetimeIndex(airlineclosemon_df.index).month
-print(airlineclosemon_df.head())
 
 # Import operation data from csv and set date as index
-airlineops_df = pd.read_csv("UA-all_airports.csv",parse_dates=['Date'],index_col='Date')
+airlineops_df = pd.read_csv(opsfile, parse_dates=['Date'],index_col='Date')
 airlineops_df['year'] = pd.DatetimeIndex(airlineops_df.index).year
 airlineops_df['month'] = pd.DatetimeIndex(airlineops_df.index).month
 print(airlineops_df.head())
