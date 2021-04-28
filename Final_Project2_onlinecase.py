@@ -92,7 +92,6 @@ print('Number of valid variables is {}'.format(len(nonconst_col)))
 # Further look into the distribution of the valid variables
 fig,ax=plt.subplots()
 
-
 for col in nonconst_col:
     if df_trainset[col].nunique() < 500:
         print(col, 'number of unique values：', df_trainset[col].nunique())
