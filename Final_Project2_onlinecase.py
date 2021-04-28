@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 
 # Dataframe import
 df_trainset = pd.read_csv('train.csv')
-df_testset = pd.read_csv('testA.csv')
 print(df_trainset.columns)
 
 # Check for distribution and missing values of the dependent variable, isDefault
@@ -96,7 +95,12 @@ fig,ax=plt.subplots()
 
 for col in nonconst_col:
     if df_trainset[col].nunique() < 500:
-        print(col, 'number of unique values：', df_trainset[f].nunique())
+        print(col, 'number of unique values：', df_trainset[col].nunique())
+        df_pivot = df_trainset.groupby(col)['isDefault'].value_counts()
+        print(df_pivot)
+
+
+
 
 
 

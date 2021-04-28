@@ -43,7 +43,7 @@ for stockcode in stockcode_list:
     price_ops_df = price_ops_df.set_index(price_ops_df['Date'])
     price_ops_df['Diff_PLF'] = price_ops_df.PLF.pct_change().mul(100)
     price_ops_df = price_ops_df.dropna()
-    print(price_ops_df.head())
+    print(price_ops_df)
 
     r, p = stats.pearsonr(price_ops_df['Diff_PLF'], price_ops_df['Diff'])
     print('Correlation of %s' % stockcode + ' r = %6.3f, p = %6.3f' % (r, p))
