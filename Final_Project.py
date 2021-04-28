@@ -8,16 +8,23 @@ import seaborn as sns
 airlinestock_data = pd.read_csv("DAL.csv")
 airlineprice_data = airlinestock_data[["Date","Close"]]
 airlineprice_data.Date = pd.to_datetime(airlineprice_data.Date)
-
-
+# Import Stock Price of SAVE
 airlinestock_data = pd.read_csv("SAVE.csv")
 saveprice_data = airlinestock_data[["Date","Close"]]
 saveprice_data.Date = pd.to_datetime(saveprice_data.Date)
+# Merge the 2 airlines' df into one on date
 airlineprice_data = airlineprice_data.merge(saveprice_data,on="Date",suffixes=["_DAL","_SAVE"])
 print(airlineprice_data.head())
-
+# Regroup the df by month and calculate the monthly average stock price
 airlineprice_monthly = airlineprice_data.resample("1m", on='Date')['Close_SAVE','Close_DAL'].mean()
 print(airlineprice_monthly.head())
+
+
+
+
+
+
+
 
 fig,ax=plt.subplots(2,1)
 ax[0].plot(airlineprice_data['Date'],airlineprice_data["Close_DAL"],label='DAL')
